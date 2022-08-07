@@ -1,0 +1,42 @@
+
+.left-panel {
+	background-color: #fff;
+	user-select: none;
+	display: flex;
+	flex-direction: column;
+	border-right: 1px solid #e5e5e5;
+	cursor: default;
+	z-index: 2;
+
+	> .edge {
+		cursor: ew-resize;
+		position: fixed;
+		right: 0;
+		height: 100%;
+		width: 6px;
+		margin-left: -3px;
+	}
+
+	@import './treeview.scss';
+}
+
+
+.right-panel {
+	background-color: #fff;
+	user-select: none;
+	display: flex;
+	flex-direction: column;
+	border-left: 1px solid #e5e5e5;
+	cursor: default;
+	z-index: 2;
+
+	> .edge {
+		cursor: ew-resize;
+		position: fixed;
+		right: 0;
+		height: 100%;
+		width: 6px;
+		margin-left: -3px;
+	}
+}
+

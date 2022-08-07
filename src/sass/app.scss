@@ -1,0 +1,15 @@
+@import './variables.scss';
+@import './common.scss';
+@import './font.scss';
+
+
+.fullscreen-view {
+    &.flex-container{
+        display: flex;
+        flex-flow: column;
+        height: 100vh;
+        user-select: none;
+
+        @import './workspace.scss';
+    }
+}

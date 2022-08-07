@@ -1,0 +1,15 @@
+.workspace {
+	position: relative;
+	flex: 1 1 auto;
+
+	@import './header.scss';
+
+	.content-area {
+		display: flex;
+		flex-direction: row;
+		height: 100%;
+
+		@import './screenviewer.scss';
+		@import './panel.scss';
+	}
+}

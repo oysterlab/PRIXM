@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react'
+import Workspace from './component/Workspace'
+import './sass/app.scss'
+import { useAppDispatch } from './store/hooks'
+import { actions } from './store/slice/app'
+
 
 function App() {
+  const dispatch = useAppDispatch()
+ 
+  const updateScreenSize = () => {
+    dispatch(actions.updateScreenSize({
+      width: document.body.clientWidth,
+      height: document.body.clientHeight
+    }))
+  }
+  
+  useEffect(() => {
+    updateScreenSize()
+    window.addEventListener("resize", updateScreenSize)
+    return(() => {
+      window.removeEventListener("resize", updateScreenSize)
+    })
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='fullscreen-view flex-container'>
+      <Workspace />
     </div>
-  );
+  )
 }
 
 export default App;
