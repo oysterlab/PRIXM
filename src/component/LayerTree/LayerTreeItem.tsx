@@ -1,48 +1,118 @@
 import react from 'react'
-import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem';
-import { LayerType } from '../../store/model/Layer';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Label from '@mui/icons-material/Label';
-import Typography from '@mui/material/Typography';
-import LayerIcon, { ImageBoxIcon } from './LayerIcon';
+import { Box, styled, svgIconClasses, SvgIconProps, Typography, typographyClasses } from '@mui/material';
+import { TreeItem, treeItemClasses, TreeItemProps, TreeView } from '@mui/lab';
+import InfoIcon from "@mui/icons-material/Info";
+import { LayerType } from '../../store/model/Type';
+import { ArtTrack, CategoryOutlined, Extension, ExtensionOutlined, Interests, Layers, LinearScale, SquareOutlined, SvgIconComponent, TableRows, TableRowsOutlined, ViewColumn, ViewColumnOutlined, ViewComfy, ViewList } from '@mui/icons-material';
 
-type LayerTreeItemProps = TreeItemProps & {
-	type: LayerType;
-	labelText: string;
+type ItemStyle = {
+    icon: SvgIconComponent
+    color: string
+    bgcolor: string
 }
-  
-const Root = styled(TreeItem)(({theme}) => ({
-	color: theme.palette.text.secondary,
-	[`& .${treeItemClasses.content}`]: {
-		paddingRight: theme.spacing(1),
-	},
-  [`& .${treeItemClasses.group}`]: {
-//   marginLeft: 0,
-    // [`& .${treeItemClasses.content}`]: {
-    //   paddingLeft: theme.spacing(2)
-    // }
-  }
+
+const ITEM_STYLE:{[key in LayerType]: ItemStyle} = {
+    L_FlexH: {
+        icon: ViewColumnOutlined,
+        bgcolor: '',
+        color: ''
+    },
+    L_FlexV: {
+        icon: TableRowsOutlined,
+        bgcolor: '',
+        color: ''
+    },
+    L_Frame: {
+        icon: Layers,
+        bgcolor: '',
+        color: ''
+    },
+    L_Linear: {
+        icon: LinearScale,
+        bgcolor: '',
+        color: ''
+    },
+    COMPONENT: {
+        icon: SquareOutlined,
+        bgcolor: '',
+        color: ''
+    },
+    PATTERN: {
+        icon: ViewComfy,
+        bgcolor: '',
+        color: ''
+    },
+    ITEM: {
+        icon: CategoryOutlined,
+        bgcolor: '',
+        color: ''
+    }
+}
+
+declare module 'react' {
+	interface CSSProperties {
+		'--tree-view-color'?: string
+		'--tree-view-bgcolor'?: string
+	}
+}
+
+
+const LayerTreeItemRoot = styled(TreeItem)(({theme}) => ({
+    
+	[`.${treeItemClasses.content}`]: {
+		[`.${treeItemClasses.iconContainer}`]: {
+			mr: 0,
+		},
+		color: theme.palette.text.secondary,
+		'&.Mui-focused, &.Mui-selected, &.Mui-selected.Mui-focused': {
+			backgroundColor: `var(--tree-view-bgcolor, ${theme.palette.action.selected})`,
+			color: `var(--tree-view-color)`,
+		},
+        [`.${svgIconClasses.root}`]: {
+            fontSize: '1.2rem',
+        },
+        [`.${typographyClasses.root}`]: {
+            fontSize: '0.8rem',
+        }
+
+	}
 }))
 
-export default function LayerTreeItem(props: LayerTreeItemProps) {
+
+export type LayerTreeItemProp = TreeItemProps & {
+    nodeId: string
+	labelText: string
+    type: LayerType
+    layers?: LayerTreeItemProp[]
+}
+
+export default function LayerTreeItem(props: LayerTreeItemProp) {
 	const {
-		type,
 		labelText,
-		...others
+		type,
+		...other
 	} = props
 
+    const {icon, color, bgcolor} = ITEM_STYLE[type]
+
 	return (
-		<Root {...others}
-			label= {
-				<Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0 }}>
-		          {/* <Box component={icon} color="inherit" sx={{ mr: 1 }} />	 */}
-				  <ImageBoxIcon fontSize="small" color="primary" />
-					<Typography variant="body2" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
-						{labelText}
-					</Typography>
-				</Box>
-			}>
-		</Root>                
+		<LayerTreeItemRoot
+			label={
+				<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					p: 0.5, 
+					pr: 0
+				}}>
+					<Box component={icon} color='inherit' sx={{mr: 1}}></Box>
+					<Typography sx={{flexGrow: 1}}>{labelText}</Typography>
+			</Box>
+			}
+			style={{
+				'--tree-view-color': color,
+				'--tree-view-bgcolor': bgcolor
+			}}
+		{...other}/>
 	)
 }

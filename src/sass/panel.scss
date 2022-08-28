@@ -7,7 +7,8 @@
 	border-right: 1px solid #e5e5e5;
 	cursor: default;
 	z-index: 2;
-
+	overflow: auto;
+	
 	> .edge {
 		cursor: ew-resize;
 		position: fixed;
